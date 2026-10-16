@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zukko Kitoblar - Asosiy Sahifa</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome spetsial belgilari uchun -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==================== ROOT VARIABLES ==================== */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --accent-hover: #d35400;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+        }
+
+        /* ==================== GENERAL STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ==================== HEADER & NAVBAR ==================== */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.7)), 
+                        url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            color: #ffffff;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== FEATURES SECTION ==================== */
+        .features {
+            padding: 4rem 0;
+            background-color: #fff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            background-color: var(--bg-light);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        /* ==================== TOP BOOKS SECTION ==================== */
+        .top-books {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+
+        .book-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .book-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .book-genre {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .book-bottom {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 20px;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            margin-top: auto;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-col p, .footer-col li {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            margin-right: 8px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: #bdc3c7;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-book-open"></i> Zukko Kitob
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" class="active">Bosh sahifa</a>
+                <a href="catalog.html">Katalog</a>
+                <a href="order.html">Buyurtma berish</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Dunyoqarashingizni Kitoblar Bilan Boyiting</h1>
+            <p>Eng so'nggi va eng ko'p o'qilayotgan badiiy, ilmiy hamda biznes kitoblarini hamyonbop narxlarda xarid qiling.</p>
+            <a href="catalog.html" class="btn"><i class="fa-solid fa-compass"></i> Katalogga o'tish</a>
+        </div>
+    </section>
+
+    <!-- AFZALLIKLAR -->
+    <section class="features">
+        <div class="container features-grid">
+            <div class="feature-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <h3>Tezkor Yetkazib Berish</h3>
+                <p>O'zbekiston bo'ylab 24 soat ichida yetkazib beramiz.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-certificate"></i>
+                <h3>Sifat Kafolati</h3>
+                <p>Faqat original va yuqori sifatli bosma nashrlar.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-headset"></i>
+                <h3>24/7 Qo'llab-quvvatlash</h3>
+                <p>Har qanday savolingiz bo'lsa javob berishga tayyormiz.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MASHHUR KITOBLAR -->
+    <section class="top-books">
+        <div class="container">
+            <h2 class="section-title">Eng Ko'p Sutilgan Kitoblar</h2>
+            <div class="books-grid">
+
+                <!-- Kitob 1 -->
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Shaxsiy Rivojlanish</span>
+                        <h3 class="book-title">Atom Odatlar</h3>
+                        <p class="book-author">James Clear</p>
+                        <div class="book-bottom">
+                            <span class="book-price">65,000 so'm</span>
+                            <a href="order.html" class="btn btn-sm">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 2 -->
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Biznes & Moliya</span>
+                        <h3 class="book-title">Boy Ota, Kambag'al Ota</h3>
+                        <p class="book-author">Robert Kiyosaki</p>
+                        <div class="book-bottom">
+                            <span class="book-price">55,000 so'm</span>
+                            <a href="order.html" class="btn btn-sm">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 3 -->
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Badiiy Adabiyot</span>
+                        <h3 class="book-title">O'tkan Kunlar</h3>
+                        <p class="book-author">Abdulla Qodiriy</p>
+                        <div class="book-bottom">
+                            <span class="book-price">48,000 so'm</span>
+                            <a href="order.html" class="btn btn-sm">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 4 -->
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Psixologiya</span>
+                        <h3 class="book-title">Diqqat (Deep Work)</h3>
+                        <p class="book-author">Cal Newport</p>
+                        <div class="book-bottom">
+                            <span class="book-price">60,000 so'm</span>
+                            <a href="order.html" class="btn btn-sm">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Zukko Kitob</h4>
+                <p>Kitoblar orqali hayotingizni yaxshi tomonga o'zgartiring va doimiy bilimga intiling.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Tezkor Havolalar</h4>
+                <ul>
+                    <li><a href="index.html">Bosh sahifa</a></li>
+                    <li><a href="catalog.html">Katalog</a></li>
+                    <li><a href="order.html">Buyurtma berish</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Bog'lanish</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Toshkent sh., Chilonzor 9-mavze</p>
+                <p><i class="fa-solid fa-phone"></i> +998 (90) 123-45-67</p>
+                <p><i class="fa-solid fa-envelope"></i> info@zukkokitob.uz</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ijtimoiy Tarmoqlar</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Zukko Kitob. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            // Responsive Mobil Menyuni Ochish/Yopish
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                
+                // Icon almashtirish (bars <-> times)
+                const icon = menuToggle.querySelector('i');
+                if(navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>

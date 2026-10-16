@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zukko Kitoblar - Katalog</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==================== ROOT VARIABLES ==================== */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --accent-hover: #d35400;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+        }
+
+        /* ==================== GENERAL STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ==================== HEADER & NAVBAR ==================== */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: #fff;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #bdc3c7;
+        }
+
+        /* ==================== CATALOG SECTION ==================== */
+        .catalog-section {
+            padding: 3rem 0;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: #fff;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(230, 126, 34, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+
+        /* Books Grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .book-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .book-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .book-genre {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .book-bottom {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            margin-top: auto;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-col p, .footer-col li {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            margin-right: 8px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: #bdc3c7;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .controls-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-book-open"></i> Zukko Kitob
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Bosh sahifa</a>
+                <a href="catalog.html" class="active">Katalog</a>
+                <a href="order.html">Buyurtma berish</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Kitoblar Katalogi</h1>
+            <p>O'zingizga kerakli barcha turdagi adabiyotlarni qidiring va tanlang</p>
+        </div>
+    </section>
+
+    <!-- CATALOG SECTION -->
+    <section class="catalog-section">
+        <div class="container">
+            
+            <!-- Qidiruv va Filtrlar -->
+            <div class="controls-wrapper">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Kitob nomi yoki muallifni izlash...">
+                </div>
+                <div class="filter-buttons" id="filterButtons">
+                    <button class="filter-btn active" data-filter="all">Barchasi</button>
+                    <button class="filter-btn" data-filter="shaxsiy">Shaxsiy Rivojlanish</button>
+                    <button class="filter-btn" data-filter="biznes">Biznes & Moliya</button>
+                    <button class="filter-btn" data-filter="badiiy">Badiiy Adabiyot</button>
+                    <button class="filter-btn" data-filter="psixologiya">Psixologiya</button>
+                </div>
+            </div>
+
+            <!-- Kitoblar Grid Ro'yxati -->
+            <div class="books-grid" id="booksGrid">
+                
+                <!-- Kitob 1 -->
+                <div class="book-card" data-category="shaxsiy" data-title="atom odatlar james clear">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Shaxsiy Rivojlanish</span>
+                        <h3 class="book-title">Atom Odatlar</h3>
+                        <p class="book-author">James Clear</p>
+                        <div class="book-bottom">
+                            <span class="book-price">65,000 so'm</span>
+                            <a href="order.html" class="btn">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 2 -->
+                <div class="book-card" data-category="biznes" data-title="boy ota kambagal ota robert kiyosaki">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Biznes & Moliya</span>
+                        <h3 class="book-title">Boy Ota, Kambag'al Ota</h3>
+                        <p class="book-author">Robert Kiyosaki</p>
+                        <div class="book-bottom">
+                            <span class="book-price">55,000 so'm</span>
+                            <a href="order.html" class="btn">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 3 -->
+                <div class="book-card" data-category="badiiy" data-title="otkan kunlar abdulla qodiriy">
+                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Badiiy Adabiyot</span>
+                        <h3 class="book-title">O'tkan Kunlar</h3>
+                        <p class="book-author">Abdulla Qodiriy</p>
+                        <div class="book-bottom">
+                            <span class="book-price">48,000 so'm</span>
+                            <a href="order.html" class="btn">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 4 -->
+                <div class="book-card" data-category="psixologiya" data-title="diqqat deep work cal newport">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Psixologiya</span>
+                        <h3 class="book-title">Diqqat (Deep Work)</h3>
+                        <p class="book-author">Cal Newport</p>
+                        <div class="book-bottom">
+                            <span class="book-price">60,000 so'm</span>
+                            <a href="order.html" class="btn">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 5 -->
+                <div class="book-card" data-category="biznes" data-title="stiv djobs uolter ayzekson">
+                    <img src="https://images.unsplash.com/photo-1495640388908-05fa85288e61?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Biznes & Moliya</span>
+                        <h3 class="book-title">Stiv Djobs</h3>
+                        <p class="book-author">Walter Isaacson</p>
+                        <div class="book-bottom">
+                            <span class="book-price">75,000 so'm</span>
+                            <a href="order.html" class="btn">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitob 6 -->
+                <div class="book-card" data-category="shaxsiy" data-title="muvaffaqiyatning 7 kumnik konikmasi stiven kovey">
+                    <img src="https://images.unsplash.com/photo-1524578271613-d550eacf6090?auto=format&fit=crop&w=500&q=80" alt="Kitob" class="book-img">
+                    <div class="book-info">
+                        <span class="book-genre">Shaxsiy Rivojlanish</span>
+                        <h3 class="book-title">Muvaffaqiyatli Insonlarning 7 Ko'nikmasi</h3>
+                        <p class="book-author">Stephen Covey</p>
+                        <div class="book-bottom">
+                            <span class="book-price">70,000 so'm</span>
+                            <a href="order.html" class="btn">Sotib olish</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Zukko Kitob</h4>
+                <p>Kitoblar orqali hayotingizni yaxshi tomonga o'zgartiring va doimiy bilimga intiling.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Tezkor Havolalar</h4>
+                <ul>
+                    <li><a href="index.html">Bosh sahifa</a></li>
+                    <li><a href="catalog.html">Katalog</a></li>
+                    <li><a href="order.html">Buyurtma berish</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Bog'lanish</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Toshkent sh., Chilonzor 9-mavze</p>
+                <p><i class="fa-solid fa-phone"></i> +998 (90) 123-45-67</p>
+                <p><i class="fa-solid fa-envelope"></i> info@zukkokitob.uz</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ijtimoiy Tarmoqlar</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Zukko Kitob. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const searchInput = document.getElementById('searchInput');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const bookCards = document.querySelectorAll('.book-card');
+
+            // Mobil menyu
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                if(navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Filtrlash va Qidiruv mantiqi
+            let currentFilter = 'all';
+
+            function filterBooks() {
+                const query = searchInput.value.toLowerCase().trim();
+
+                bookCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const titleText = card.getAttribute('data-title');
+                    const authorText = card.querySelector('.book-author').textContent.toLowerCase();
+
+                    const matchesCategory = (currentFilter === 'all' || category === currentFilter);
+                    const matchesSearch = (titleText.includes(query) || authorText.includes(query));
+
+                    if (matchesCategory && matchesSearch) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Kategoriya tugmalari bo'yicha filter
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    filterBooks();
+                });
+            });
+
+            // Qidiruv input hodisasi
+            searchInput.addEventListener('input', filterBooks);
+        });
+    </script>
+</body>
+</html>

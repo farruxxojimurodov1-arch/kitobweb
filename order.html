@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zukko Kitoblar - Buyurtma Berish</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==================== ROOT VARIABLES ==================== */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --accent-hover: #d35400;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --success-color: #27ae60;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+        }
+
+        /* ==================== GENERAL STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ==================== HEADER & NAVBAR ==================== */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: #fff;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #bdc3c7;
+        }
+
+        /* ==================== ORDER SECTION ==================== */
+        .order-section {
+            padding: 4rem 0;
+        }
+
+        .order-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+            background-color: #fff;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(230, 126, 34, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Xabarnoma bloklari */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            display: none;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            margin-top: auto;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-col p, .footer-col li {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            margin-right: 8px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: #bdc3c7;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .order-wrapper {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-book-open"></i> Zukko Kitob
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Bosh sahifa</a>
+                <a href="catalog.html">Katalog</a>
+                <a href="order.html" class="active">Buyurtma berish</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Kitob Buyurtma Qilish</h1>
+            <p>Ma'lumotlaringizni kiriting va tez fursatda yetkazib berish xizmatidan foydalaning</p>
+        </div>
+    </section>
+
+    <!-- ORDER SECTION -->
+    <section class="order-section">
+        <div class="container">
+            <div class="order-wrapper">
+                
+                <!-- Xabarnomalar -->
+                <div id="successAlert" class="alert alert-success">
+                    <i class="fa-solid fa-circle-check"></i> Buyurtmangiz muvaffaqiyatli qabul qilindi! Tez orada operatorlarimiz siz bilan bog'lanishadi.
+                </div>
+                <div id="errorAlert" class="alert alert-error">
+                    <i class="fa-solid fa-circle-exclamation"></i> Xatolik yuz berdi. Iltimos, ma'lumotlarni qaytadan tekshirib urinib ko'ring.
+                </div>
+
+                <!-- Buyurtma Formasi -->
+                <form id="orderForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">F.I.Sh (To'liq ism) *</label>
+                            <input type="text" id="fullName" required placeholder="Masalan: Anvar Karimov">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon raqam *</label>
+                            <input type="tel" id="phone" required placeholder="+998 90 123-45-67">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookSelect">Kitobni tanlang *</label>
+                        <select id="bookSelect" required>
+                            <option value="" disabled selected>Ro'yxatdan tanlang...</option>
+                            <option value="Atom Odatlar (65,000 so'm)">Atom Odatlar — 65,000 so'm</option>
+                            <option value="Boy Ota, Kambag'al Ota (55,000 so'm)">Boy Ota, Kambag'al Ota — 55,000 so'm</option>
+                            <option value="O'tkan Kunlar (48,000 so'm)">O'tkan Kunlar — 48,000 so'm</option>
+                            <option value="Diqqat (Deep Work) (60,000 so'm)">Diqqat (Deep Work) — 60,000 so'm</option>
+                            <option value="Stiv Djobs (75,000 so'm)">Stiv Djobs — 75,000 so'm</option>
+                            <option value="Muvaffaqiyatli Insonlarning 7 Ko'nikmasi (70,000 so'm)">Muvaffaqiyatli Insonlarning 7 Ko'nikmasi — 70,000 so'm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantity">Soni (dona) *</label>
+                            <input type="number" id="quantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Yetkazib berish manzili *</label>
+                            <input type="text" id="address" required placeholder="Shahar, tuman, ko'cha, uy...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Qo'shimcha izoh</label>
+                        <textarea id="comment" rows="3" placeholder="Yetkazish vaqti yoki boshqa istaklaringiz..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fa-solid fa-paper-plane"></i> Buyurtmani Tasdiqlash
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Zukko Kitob</h4>
+                <p>Kitoblar orqali hayotingizni yaxshi tomonga o'zgartiring va doimiy bilimga intiling.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Tezkor Havolalar</h4>
+                <ul>
+                    <li><a href="index.html">Bosh sahifa</a></li>
+                    <li><a href="catalog.html">Katalog</a></li>
+                    <li><a href="order.html">Buyurtma berish</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Bog'lanish</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Toshkent sh., Chilonzor 9-mavze</p>
+                <p><i class="fa-solid fa-phone"></i> +998 (90) 123-45-67</p>
+                <p><i class="fa-solid fa-envelope"></i> info@zukkokitob.uz</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ijtimoiy Tarmoqlar</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Zukko Kitob. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT & TELEGRAM API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const orderForm = document.getElementById('orderForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+
+            // Mobil menyu
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                if(navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Telegram Bot sozlamalari
+            const BOT_TOKEN = '8674957771:AAG30t4RWFF5HfCblchY9LKVPMn7a_o_ry0';
+            const ADMIN_ID = '8898937663';
+
+            // Forma yuborilganda
+            orderForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Xabarlarni yashirish
+                successAlert.style.display = 'none';
+                errorAlert.style.display = 'none';
+
+                // Input qiymatlarini yig'ish
+                const fullName = document.getElementById('fullName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const bookSelect = document.getElementById('bookSelect').value;
+                const quantity = document.getElementById('quantity').value;
+                const address = document.getElementById('address').value.trim();
+                const comment = document.getElementById('comment').value.trim() || "Izoh yozilmagan";
+
+                // Telegramga yuboriladigan xabar matni
+                const message = `📖 <b>Yangi Kitob Buyurtmasi!</b>\n\n` +
+                                `👤 <b>Mijoz:</b> ${fullName}\n` +
+                                `📞 <b>Telefon:</b> ${phone}\n` +
+                                `📚 <b>Kitob:</b> ${bookSelect}\n` +
+                                `🔢 <b>Soni:</b> ${quantity} dona\n` +
+                                `📍 <b>Manzil:</b> ${address}\n` +
+                                `💬 <b>Izoh:</b> ${comment}`;
+
+                // Tugmani yuklanish holatiga o'tkazish
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Yuborilmoqda...`;
+
+                try {
+                    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            chat_id: ADMIN_ID,
+                            text: message,
+                            parse_mode: 'HTML'
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.ok) {
+                        successAlert.style.display = 'block';
+                        orderForm.reset();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        throw new Error(data.description || "Telegram API xatoligi");
+                    }
+                } catch (error) {
+                    console.error("Xatolik:", error);
+                    errorAlert.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Buyurtmani Tasdiqlash`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
